@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import TextInput from './components/form/input'
+import NewButton from "./components/form/new_button";
+import InputFormGroup from "./components/form/input_form_group";
+import GroupFormCheck from "./components/form/group_form_check";
 
 class App extends Component {
     constructor(props, context) {
@@ -7,27 +9,24 @@ class App extends Component {
 
         this.state = {
             data: {},
+            errState: false,
         }
     }
 
-    handleChange = (e) => {
-        const {target = 'default value'} = e;
+    handleChange = (e) => { // обработчик события - нажатие клавиши
+        const {target} = e;
         const {name} = target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        console.log('>>>>>handleField', name, value);
         this.setState({
-            data: {...this.state.data, [name]: value}
+            data: {...this.state.data, [name]: value},
         });
-
-        // const stateCopy = Object.assign({}, this.state);
-        // stateCopy.data[name] = value;
-        // this.setState(stateCopy);
-
     };
 
     render() {
         const classForApp = 'ddd';
         const inputName = 'taskName';
+        const inputDate = 'taskDate';
+        const inputCheckBox = 'some data';
 
         return (
             <React.Fragment>
@@ -39,58 +38,43 @@ class App extends Component {
                     <div className='row'>
                         <div className='col-md-6'>
                             <form id='form1' action=''>
+                                <InputFormGroup
+                                    inputName={inputName}
+                                    className='form-group'
+                                    value={this.state.data[inputName] || ''}
+                                    labelName='Название напоминания'
+                                    placeholder='Введите название'
+                                    smallValue='Введите название занятия на завтра.'
+                                    isCalendarPicture={false}
+                                />
 
-                                <div className='form-group'>
-                                    <label htmlFor='taskData'>Название напоминания</label>
-                                    <TextInput
-                                        name='taskName'
-                                        ariaDescribedby='taskDataHelp'
-                                        placeholder='Enter the name'
-                                        value={this.state.data[inputName] || ''}
-                                        onChange={this.handleChange}
-                                    />
-                                    <small id='taskDataHelp' className='form-text text-muted'>Введите название занятия
-                                        на завтра.
-                                    </small>
-                                </div>
+                                <InputFormGroup
+                                    inputName={inputName}
+                                    className='form-group'
+                                    value={this.state.data[inputDate] || ''}
+                                    labelName='Когда напомнить'
+                                    placeholder='Напомнить'
+                                    smallValue='Введите дату и время напоминания.'
+                                    isCalendarPicture={true}
+                                />
 
-                                <div className='form-group'>
-                                    <label htmlFor='reminderData'>Когда напомнить</label>
-                                    <div className='input-group'>
-                                        <div onClick={null} className='input-group-prepend'>
-								      <span
-                                          style={{cursor: 'pointer !important'}}
-                                          className='input-group-text'
-                                          id='calendarOpener'
-                                      >
-									      <i className='fa fa-calendar'></i>
-								      </span>
-                                        </div>
-                                        <input
-                                            type='text'
-                                            className='form-control'
-                                            id='reminderData'
-                                            aria-describedby='reminderDataHelp'
-                                            placeholder='Напомнить'
-                                        />
-                                    </div>
-                                    <small id='reminderDataHelp' className='form-text text-muted'>Введите дату и время
-                                        напоминания.
-                                    </small>
-                                </div>
+                                <GroupFormCheck
+                                    value={this.state.data[inputCheckBox]}
+                                    labelValue='Важно'
+                                />
 
-                                <div className='form-group form-check'>
-                                    <input
-                                        type='checkbox'
-                                        className='form-check-input'
-                                        id='Check1'
-                                        value='some data'/>
-                                    <label className='form-check-label' htmlFor='exampleCheck1'>Важно</label>
-                                </div>
-
-                                <button type='button' className='btn btn-primary' onClick={null}>Add task</button>
-                                <button type='button' className='btn btn-light' onClick={null}>Clear Form</button>
-
+                                <NewButton
+                                    type='button'
+                                    className='btn btn-primary'
+                                    onclick={null}
+                                    value='Add task'
+                                />
+                                <NewButton
+                                    type='button'
+                                    className='btn btn-light'
+                                    onclick={null}
+                                    value='Clear Form'
+                                />
                             </form>
                         </div>
                         <div className='col-md-6'>
@@ -108,5 +92,5 @@ class App extends Component {
     }
 }
 
-// sdfsdf
+
 export default App;
