@@ -1,32 +1,42 @@
 import React, {Component} from 'react';
-import NewButton from "./components/form/new_button";
-import InputFormGroup from "./components/form/input_form_group";
-import GroupFormCheck from "./components/form/group_form_check";
+import {TaskForm} from "./components/task_form";
+import {TaskList} from "./components/task_list";
+import {Greeting} from "./components/greeting";
 
 class App extends Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {
+            list: [{
+                id:4,
+                title: 'First Task',
+                date:'18.18.2018',
+            }],
             data: {},
             errState: false,
         }
     }
 
-    handleChange = (e) => { // обработчик события - нажатие клавиши
-        const {target} = e;
-        const {name} = target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        this.setState({
-            data: {...this.state.data, [name]: value},
-        });
+    handleAddItem = (newItem) => {
+        // const list = this.state.list.slice();
+        // list.push(newItem);
+        // this.setState({list});
+        this.setState(prevState => ({
+            list: prevState.list.push(newItem),
+        }))
+
+    };
+
+    handleDeleteItem = (id) => {
+        this.setState(prevState => ({
+                list: prevState.list
+                    .filter((item) => (item.id !== id)),
+            }),
+        );
     };
 
     render() {
-        const classForApp = 'ddd';
-        const inputName = 'taskName';
-        const inputDate = 'taskDate';
-        const inputCheckBox = 'some data';
 
         return (
             <React.Fragment>
@@ -36,53 +46,14 @@ class App extends Component {
                     </div>
                     <br/>
                     <div className='row'>
-                        <div className='col-md-6'>
-                            <form id='form1' action=''>
-                                <InputFormGroup
-                                    inputName={inputName}
-                                    className='form-group'
-                                    value={this.state.data[inputName] || ''}
-                                    labelName='Название напоминания'
-                                    placeholder='Введите название'
-                                    smallValue='Введите название занятия на завтра.'
-                                    isCalendarPicture={false}
-                                />
-
-                                <InputFormGroup
-                                    inputName={inputName}
-                                    className='form-group'
-                                    value={this.state.data[inputDate] || ''}
-                                    labelName='Когда напомнить'
-                                    placeholder='Напомнить'
-                                    smallValue='Введите дату и время напоминания.'
-                                    isCalendarPicture={true}
-                                />
-
-                                <GroupFormCheck
-                                    value={this.state.data[inputCheckBox]}
-                                    labelValue='Важно'
-                                />
-
-                                <NewButton
-                                    type='button'
-                                    className='btn btn-primary'
-                                    onclick={null}
-                                    value='Add task'
-                                />
-                                <NewButton
-                                    type='button'
-                                    className='btn btn-light'
-                                    onclick={null}
-                                    value='Clear Form'
-                                />
-                            </form>
-                        </div>
-                        <div className='col-md-6'>
-                            <div className='card' style={{width: '100%'}}>
-                                some data
-                            </div>
-
-                        </div>
+                        <TaskForm
+                            handleAdd = {this.handleAddItem}
+                        />
+                        <TaskList
+                            dataList={this.state.list}
+                            handleDelete = {this.handleDeleteItem}
+                        />
+                        <Greeting/>
                         {/* <TasksList listHeader='Список дел на завтра:' /> */}
                     </div>
                 </div>
