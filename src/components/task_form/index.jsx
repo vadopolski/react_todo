@@ -27,10 +27,20 @@ export class TaskForm extends Component {
 		});
 	};
 	handleAddLocal = () => {
-		// проверку данных на валидность
-		//  если что-то введено неверно, тогда вывод ошибки в консоль
-		// если все ОК, тогда формируем объект {...} и передаем его в this.props.handleAdd(...);
-		// ресет компонента формы (т.е. удаление всех данных из инпутов)
+        const taskName = this.state.data['taskName'];
+        if(!taskName) throw new Error('Incorrect task name');
+        const taskDate = this.state.data['remindDt'];
+        if(!taskDate) throw new Error('Incorrect Remind Date');
+        const urgent = this.state.data.urgent;
+
+        const item = {
+            id: 18,
+            title: taskName,
+            date: taskDate,
+            urgent: urgent,
+        };
+
+        this.props.handleAdd(item);
 	};
 
 	calendarClick = (e) => {
@@ -42,7 +52,7 @@ export class TaskForm extends Component {
 		return (
 			<div className='col-md-6'>
 					<TaskNameInput
-						value={ this.state.data.taskName || '' }
+						value={ this.state.data['taskName'] || '' }
 						name='taskName'
 						placeholder='Название задачи'
 						onChange={ this.handleChange }
@@ -50,10 +60,10 @@ export class TaskForm extends Component {
 						errHint='Введите название задачи для напоминания'
 					/>
 					<TaskNameInput
-						value={ this.state.data.remindDt || '' }
+						value={ this.state.data['remindDt'] || '' }
 						name='remindDt'
 						placeholder='Напомнить'
-						onChange={ null }
+						onChange={ this.handleChange }
 						label='Когда напомнить'
 						errHint='Введите дату и время напоминания'
 						calendarClick={ this.calendarClick }
@@ -67,7 +77,7 @@ export class TaskForm extends Component {
 					<Button
 						label='Add task'
 						className='primary'
-						onclick={ this.handleClickAdd }
+						onclick={ this.handleAddLocal }
 					/>
 					<Button
 						label='Clear Form'

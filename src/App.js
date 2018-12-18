@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TaskForm } from './components/task_form';
 import { TaskList } from './components/task_list';
 
-const msItems = [
+let msItems = [
     {
         id: 23,
         title: 'First Item',
@@ -32,12 +32,13 @@ class App extends Component {
     }
 
     handleAddItem = (newItem) => { // обработчик события - нажатие клавиши
-        // const list = this.state.list.slice();
-        // list.push(newItem);
-        // this.setState({ list });
-        this.setState(prevState => ({
-            list: prevState.list.push(newItem),
-        }));
+        const list = this.state.list.slice();
+        const max = msItems.map(item => item.id).reduce((a,b) => Math.max(a,b));
+
+        newItem.id = max + 1;
+        list.push(newItem);
+        this.setState({ list });
+        msItems.push(newItem);
     };
 
     handleDeleteItem = (id) => {
