@@ -1,54 +1,48 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
-import './list_item.css'
+import './list_item.css';
 
 export const ListItem = (props) => {
+	const {
+		id,
+		title,
+		date = null,
+		urgent = null,
+		onclick = null,
+	} = props;
+	const simpleItem = (!date && !urgent);
 
-    const {    title,
-        date,
-        urgent,
-        onclick
-} = props;
+	const urgentTag = urgent && (<React.Fragment>
+		<i className='text-danger fa fa-exclamation-triangle' /> &nbsp;
+	</React.Fragment>);
 
-    const simpleItem = (!date && !urgent && !onclick);
+	const dateTag = date && (<React.Fragment>
+		<br />
+		<span className='text-muted'>
+			<small> { date } </small>
+		</span>
+	</React.Fragment>);
 
-    const urgentTag = urgent && (<React.Fragment>
-            <i class='text-danger fa fa-exclamation-triangle'/> &nbsp;
-        </React.Fragment>);
-
-    const dateTag = date && (<React.Fragment>
-        <span className='text-muted'>
-            <small> {date}</small>
-        </span>
-    </React.Fragment>);
-
-
-
-    return simpleItem ? (
-        <li className="list-group-item">
-            {title}
-         </li>
-    ) : (
-        <li className="list-group-item">
-            {urgentTag}
-            {title}
-            {dateTag}
-            <span className='delete_ico' onClick={null}>
-                <i className='fa fa-times'/>
-            </span>
-        </li>
-
-    );
-
-
+	return simpleItem ? (
+		<li className='list-group-item'>
+			{ title }
+		</li>) : (
+		<li className='list-group-item'>
+			{ urgentTag }
+			{ title }
+			{ dateTag }
+			<span className='delete_ico' onClick={ () => { onclick(id) } }>
+				<i className='fa fa-times' />
+			</span>
+		</li>);
 };
 
 export default React.memo(ListItem);
 
 ListItem.propTypes = {
-    id: PropTypes.string,
-    title: PropTypes.string,
-    date: PropTypes.string,
-    urgent: PropTypes.bool,
-    onclick: PropTypes.func, //
+	id: PropTypes.string, // id  элемента в списке
+	title: PropTypes.string, // имя напоминания
+	date: PropTypes.string, // дата напоминания
+	urgent: PropTypes.bool, // важно / не важно
+	onclick: PropTypes.func, // обработчик события нажатие на крестик
 };
