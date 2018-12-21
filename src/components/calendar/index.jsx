@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import './calendar.css';
 import {CalendarBody} from "./body";
 import CalendarHeader from "./calendarHeader";
+import {ArrowsButton} from "../form/arrows_button";
 
 export class Calendar extends Component {
     static propTypes = {
         handleAdd: PropTypes.func, // метод добавления напоминания  в список
     };
+
+
 
     constructor(props, context) {
         super(props, context);
@@ -22,6 +25,22 @@ export class Calendar extends Component {
         };
     }
 
+    reduceMonth = () => {
+        this.setState(prevState => {
+            return ({
+                monthToOperate: prevState.monthToOperate - 1,
+            });
+        });
+    };
+
+    increaseMonth(){
+        this.setState(prevState => {
+            return ({
+                monthToOperate: prevState.monthToOperate + 1,
+            });
+        });
+    }
+
     render() {
         return (
             <div id='calendar' className='micalendar' style={{display: 'block'}}>
@@ -31,12 +50,15 @@ export class Calendar extends Component {
                         year={this.state.yearToOperate}
                     />
                     <div className='arrows'>
-                        <div id='prevButton' className='arrows_left'>
-                            <i className='fa fa-angle-left'/>
-                        </div>
-                        <div id='nextButton' className='arrows_right'>
-                            <i className='fa fa-angle-right'/>
-                        </div>
+                        <ArrowsButton
+                            arrows={'left'}
+                            onclick={this.reduceMonth}
+
+                        />
+                        <ArrowsButton
+                            arrows={'right'}
+                            onclick={this.increaseMonth}
+                        />
                     </div>
                 </div>
                 <table id='calendar_table'>

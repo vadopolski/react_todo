@@ -70,6 +70,7 @@ class App extends Component {
 			    <div className='row'>
 				    <TaskForm
 				      handleAdd={ this.handleAddItem }
+
 				    />
 						<TaskList
 							dataList={ this.state.list }
@@ -87,10 +88,5 @@ class App extends Component {
     );
   }
 }
-// sdfsdf
+
 export default App;
-
-/*
-
-
- */
