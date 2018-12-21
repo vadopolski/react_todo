@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ListItem from './list_item';
+import {Button} from "../form/button";
 
 export class TaskList extends Component {
 	static propTypes = {
 		dataList: PropTypes.array, // список задач
 		handleDelete: PropTypes.func, // метод удаления напоминания из списка
+		handleClearList: PropTypes.func, // очистить весь список
 	};
 
 	constructor(props, context) {
@@ -15,6 +17,10 @@ export class TaskList extends Component {
 			data: {},
 			errState: false,
 		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		console.log('nextProps  = ', nextProps);
 	}
 
 	handleDelete = (id) => {
@@ -43,6 +49,15 @@ export class TaskList extends Component {
 						{ list.length ? list : emptyItem }
 					</ul>
 				</div>
+				{ !!(this.props.dataList && this.props.dataList.length) ?
+					(<div style={ {marginTop: '15px' } }>
+						<Button
+							label='Clear List'
+							className='dark'
+							onclick={ this.props.handleClearList }
+						/>
+					</div>) : null
+				}
 			</div>
 		);
 	}
