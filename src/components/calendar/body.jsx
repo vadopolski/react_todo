@@ -4,17 +4,19 @@ import CalendarCell  from './one_cell';
 import { getFirstDayOfMonth, getLastDay } from './fn';
 import './calendar.css';
 
-export class Calendar extends Component {
+export class CalendarBody extends Component {
 	static propTypes = {
 		handleAdd: PropTypes.func, // метод добавления напоминания  в список
+        yearToOperate : PropTypes.number,
+		monthToOperate: PropTypes.number
 	};
 
 	constructor(props, context) {
 		super(props, context);
 	}
 
-
 	buildCalendar(yearToOperate, monthToOperate) { //
+		console.log('yearToOperate' + yearToOperate);
 		const dateToOperate = new Date(yearToOperate, monthToOperate);
 		const year = dateToOperate.getFullYear();
 		const month = dateToOperate.getMonth(); // месяц от 0 до 11, нужно прибавлять 1
@@ -23,7 +25,7 @@ export class Calendar extends Component {
 		const maximumDaysInPrevMonth = getLastDay(year, month - 1);
 		dayWeek = dayWeek === 0 ? 7 : dayWeek;
 		const firstDay = getFirstDayOfMonth(year, month);
-		const j = 1; // это счетчик недель, которые выводятся в календарь
+		let j = 1; // это счетчик недель, которые выводятся в календарь
 		let dayCounter = 1;
 		let dayCounterAfter = 1;
 		let str_out_week = [];
@@ -50,8 +52,8 @@ export class Calendar extends Component {
 					let todayClass = '';
 					const currrentDt = new Date();
 
-					if (yearToOperate == currrentDt.getFullYear() && monthToOperate == currrentDt.getMonth()) {
-						todayClass = dayCounter == dayMonth ? 'today' : '';
+					if (yearToOperate === currrentDt.getFullYear() && monthToOperate === currrentDt.getMonth()) {
+						todayClass = dayCounter === dayMonth ? 'today' : '';
 					}
 
 					tmpCellObject = {
@@ -67,11 +69,12 @@ export class Calendar extends Component {
 			str_out_week.push(<tr key={ j }> { str_out }</tr>);
 			j++;
 		}
-		// printMonthHeader(yearToOperate, monthToOperate);
-		// document.getElementById('calendar_table').children[1].innerHTML = str_out_week;
+
+		return str_out_week;
 	}
 
 	render() {
-		return '';
+		return (this.buildCalendar(this.props.yearToOperate,
+									this.props.monthToOperate));
 	}
 }
