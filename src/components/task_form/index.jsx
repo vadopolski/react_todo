@@ -71,11 +71,11 @@ export class TaskForm extends Component {
 	handleClearForm = () => {
 		clearErr(this);
 		this.setState({ data: {} });
-	}
+	};
 
 	handleClickAdd = (e) => {
 		this.handleAddLocal();
-	}
+	};
 
 	calendarClick = (e) => {
 		console.log(e);
