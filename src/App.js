@@ -14,7 +14,7 @@ class App extends Component {
             <React.Fragment>
                 <div className='container' style={{marginTop: '40px'}}>
                     <div className='row'>
-                        <Greeting/>
+                        <Clients/>
                     </div>
                 </div>
             </React.Fragment>
