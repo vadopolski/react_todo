@@ -41,6 +41,8 @@ export class TaskForm extends Component {
         };
 
         this.props.handleAdd(item);
+
+
 	};
 
 	calendarClick = (e) => {

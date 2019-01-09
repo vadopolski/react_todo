@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ListItem from './list_item';
+import ListItem from '../clients/list_item';
 
 export class TaskList extends Component {
 	static propTypes = {
